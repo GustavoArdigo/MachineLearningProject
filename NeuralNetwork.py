@@ -16,16 +16,15 @@ train_labels = train_dataset.pop('label')
 test_labels = test_dataset.pop('label')
 
 def build_model():
-  model = keras.Sequential([
-      layers.Input(len(train_dataset.keys())), #input_shape = 5
-      layers.Dense(4, activation = 'relu'),
-      layers.Dense(2, activation='softmax'),
+    model = keras.Sequential([
+      layers.Input(len(train_dataset.keys())), #input_shape = 3
+      layers.Dense(2, activation = 'relu'),
+      layers.Dense(1, activation='sigmoid'),
   ])
-
-  model.compile(optimizer='adam',
-                loss='sparse_categorical_crossentropy',
-                metrics=['accuracy'])
-  return model
+    model.compile(optimizer='adam', 
+                  loss='binary_crossentropy', 
+                  metrics=['accuracy'])
+    return model
 
 model = build_model()
 print(model.summary())
@@ -33,6 +32,8 @@ print(model.summary())
 predicted_labels_ANN = model.fit(train_dataset, train_labels, epochs=4)
 print(predicted_labels_ANN)
 
-test_loss, test_acc = model.evaluate(test_dataset,  test_labels, verbose=2)
+test_loss, test_acc = model.evaluate(test_dataset,  test_labels)
 
 print('\nTest accuracy:', test_acc)
+
+
